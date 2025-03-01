@@ -21,7 +21,7 @@ class CustomerRepository implements CustomerRepositoryInterface
 
     public function paginate(int $perPage): LengthAwarePaginator
     {
-        return Customer::paginate($perPage); // Gunakan paginate()
+        return Customer::paginate($perPage);
     }
 
     public function getById(int $id): ?Customer

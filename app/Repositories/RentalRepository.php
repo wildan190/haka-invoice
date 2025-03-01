@@ -89,7 +89,6 @@ class RentalRepository implements RentalRepositoryInterface
         $dp_paid = $data['use_dp'] ? ($data['dp_paid'] ?? 0) : 0;
         $remaining_payment = $total_price - $dp_paid;
 
-        // Update data rental
         $rental->update([
             'customer_id' => $data['customer_id'],
             'mobil_id' => $data['mobil_id'],

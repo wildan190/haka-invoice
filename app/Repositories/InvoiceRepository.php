@@ -21,12 +21,11 @@ class InvoiceRepository implements InvoiceRepositoryInterface
 
     public function create(array $data): ?Invoice
     {
-        // Pastikan rental_id belum memiliki invoice
         if (Invoice::where('rental_id', $data['rental_id'])->exists()) {
-            return null; // Rental sudah memiliki invoice, tidak bisa dibuat lagi
+            return null;
         }
 
-        $data['invoice_number'] = Invoice::generateInvoiceNumber(); // Generate nomor invoice
+        $data['invoice_number'] = Invoice::generateInvoiceNumber();
 
         return Invoice::create($data);
     }
