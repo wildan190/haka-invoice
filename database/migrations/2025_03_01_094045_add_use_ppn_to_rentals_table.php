@@ -12,14 +12,14 @@ return new class extends Migration
     public function up()
     {
         Schema::table('rentals', function (Blueprint $table) {
-            $table->boolean('use_ppn')->default(false)->after('use_dp');  // Tambah kolom use_ppn
+            $table->boolean('use_ppn')->default(false)->after('use_dp');
         });
     }
 
     public function down()
     {
         Schema::table('rentals', function (Blueprint $table) {
-            $table->dropColumn('use_ppn');  // Hapus kolom kalau di-rollback
+            $table->dropColumn('use_ppn');
         });
     }
 };
