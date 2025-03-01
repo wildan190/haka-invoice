@@ -11,7 +11,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('customer_id')->constrained()->onDelete('cascade');
             $table->foreignId('mobil_id')->constrained()->onDelete('cascade');
-            $table->enum('rental_type', ['harian', 'bulanan']);
+            $table->enum('rental_type', ['hari', 'bulan']);
             $table->integer('duration'); // jumlah hari atau bulan
             $table->decimal('total_price', 15, 2);
             $table->boolean('use_dp')->default(false);

@@ -9,6 +9,7 @@
             size: A4;
             margin: 20mm;
         }
+
         body {
             font-family: Arial, sans-serif;
             padding: 30px;
@@ -37,15 +38,6 @@
             font-weight: bold;
         }
 
-        .company-info span {
-            color: #007BFF;
-        }
-
-        .company-info p {
-            margin: 2px 0;
-            font-size: 12px;
-        }
-
         .section-title {
             font-size: 15px;
             font-weight: bold;
@@ -53,17 +45,6 @@
             border-bottom: 2px solid #007BFF;
             padding-bottom: 5px;
             margin-bottom: 10px;
-        }
-
-        .customer-info {
-            background: #f8f9fa;
-            padding: 10px;
-            border-radius: 6px;
-            margin-bottom: 10px;
-        }
-
-        .customer-info p {
-            margin: 4px 0;
         }
 
         .table {
@@ -87,29 +68,6 @@
         .text-right {
             text-align: right;
         }
-
-        .status {
-            font-weight: bold;
-            padding: 5px 10px;
-            border-radius: 3px;
-            text-transform: uppercase;
-        }
-
-        .status-lunas {
-            background: #28a745;
-            color: white;
-        }
-
-        .status-belum-lunas {
-            background: #dc3545;
-            color: white;
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 12px;
-        }
     </style>
 </head>
 
@@ -123,10 +81,6 @@
 
         <div class="company-info">
             <h2>HAKA RENTAL <span>MOBIL</span></h2>
-            <p>
-                Jl. Sultan Adam Jl. Komp. Family Permai No.21, Surgi Mufti, Kec. Banjarmasin Utara, Kota Banjarmasin,
-                Kalimantan Selatan 70122
-            </p>
             <p>Telp: +62 822 535 456 | Email: hakarentcar@gmail.com</p>
         </div>
     </div>
@@ -135,15 +89,7 @@
     <p class="section-title">Invoice: {{ $invoice->invoice_number }}</p>
     <p><strong>Tanggal:</strong> {{ \Carbon\Carbon::parse($invoice->invoice_date)->format('d-m-Y') }}</p>
 
-    <!-- Informasi Pelanggan -->
-    <p class="section-title">Informasi Pelanggan</p>
-    <div class="customer-info">
-        <p><strong>Nama:</strong> {{ $invoice->rental->customer->name }}</p>
-        <p><strong>Telepon:</strong> {{ $invoice->rental->customer->phone_number }}</p>
-        <p><strong>Alamat:</strong> {{ $invoice->rental->customer->address ?? 'Tidak tersedia' }}</p>
-    </div>
-
-    <!-- Detail Produk -->
+    <!-- Detail Penyewaan -->
     <p class="section-title">Detail Penyewaan</p>
     <table class="table">
         <tr>
@@ -159,9 +105,28 @@
             <td>{{ $invoice->rental->duration }} {{ ucfirst($invoice->rental->rental_type) }}</td>
             <td class="text-right">Rp{{ number_format($invoice->rental->mobil->price, 2, ',', '.') }}</td>
             <td class="text-right">
-                {{ number_format($invoice->rental->mobil->price * $invoice->rental->duration, 2, ',', '.') }}</td>
+                Rp{{ number_format($invoice->rental->mobil->price * $invoice->rental->duration, 2, ',', '.') }}</td>
         </tr>
     </table>
+
+    <!-- Additional Services -->
+    @if ($invoice->rental->services->isNotEmpty())
+        <p class="section-title">Layanan Tambahan</p>
+        <table class="table">
+            <tr>
+                <th>No.</th>
+                <th>Nama Layanan</th>
+                <th class="text-right">Harga (Rp)</th>
+            </tr>
+            @foreach ($invoice->rental->services as $index => $service)
+                <tr>
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ $service->service_name }}</td>
+                    <td class="text-right">Rp{{ number_format($service->service_price, 2, ',', '.') }}</td>
+                </tr>
+            @endforeach
+        </table>
+    @endif
 
     <!-- Rincian Pembayaran -->
     <p class="section-title">Rincian Pembayaran</p>
@@ -172,24 +137,23 @@
         </tr>
         <tr>
             <td>Total Harga (Sebelum PPN)</td>
-            <td class="text-right">
-                {{ number_format($invoice->rental->mobil->price * $invoice->rental->duration, 2, ',', '.') }}</td>
+            <td class="text-right">Rp{{ number_format($invoice->rental->total_price - $invoice->rental->ppn, 2, ',', '.') }}</td>
         </tr>
         <tr>
             <td>PPN 11%</td>
-            <td class="text-right">{{ number_format($invoice->rental->ppn, 2, ',', '.') }}</td>
+            <td class="text-right">Rp{{ number_format($invoice->rental->ppn, 2, ',', '.') }}</td>
         </tr>
         <tr>
             <th>Total Harga (Termasuk PPN)</th>
-            <th class="text-right">{{ number_format($invoice->rental->total_price, 2, ',', '.') }}</th>
+            <th class="text-right">Rp{{ number_format($invoice->rental->total_price, 2, ',', '.') }}</th>
         </tr>
         <tr>
             <td>DP Dibayar</td>
-            <td class="text-right">{{ number_format($invoice->rental->dp_paid, 2, ',', '.') }}</td>
+            <td class="text-right">Rp{{ number_format($invoice->rental->dp_paid, 2, ',', '.') }}</td>
         </tr>
         <tr>
             <th>Sisa Pembayaran</th>
-            <th class="text-right">{{ number_format($invoice->rental->remaining_payment, 2, ',', '.') }}</th>
+            <th class="text-right">Rp{{ number_format($invoice->rental->remaining_payment, 2, ',', '.') }}</th>
         </tr>
     </table>
 
@@ -201,7 +165,7 @@
     </p>
 
     <!-- Footer -->
-    <p class="footer"><strong>Terima kasih telah menggunakan layanan HAKA RENTAL MOBIL!</strong><br>Jika ada pertanyaan
+    <p class="footer"><strong>Terima kasih telah menggunakan layanan HAKA RENTAL MOBIL</strong><br>Jika ada pertanyaan
         lebih lanjut, silakan hubungi kami.</p>
 
 </body>

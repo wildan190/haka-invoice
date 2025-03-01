@@ -37,6 +37,12 @@ class Rental extends Model
         return $this->status === 'lunas';
     }
 
+    public function services()
+    {
+        return $this->hasMany(RentalService::class);
+    }
+
+
     public function invoice()
     {
         return $this->hasOne(Invoice::class);

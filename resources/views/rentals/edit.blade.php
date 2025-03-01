@@ -47,8 +47,8 @@
                 <div class="mb-3">
                     <label for="rental_type" class="form-label">Jenis Rental</label>
                     <select id="rental_type" name="rental_type" class="form-control @error('rental_type') is-invalid @enderror" required>
-                        <option value="harian" {{ old('rental_type', $rental->rental_type) == 'harian' ? 'selected' : '' }}>Harian</option>
-                        <option disabled value="bulanan" {{ old('rental_type', $rental->rental_type) == 'bulanan' ? 'selected' : '' }}>Bulanan</option>
+                        <option value="hari" {{ old('rental_type', $rental->rental_type) == 'hari' ? 'selected' : '' }}>Hari</option>
+                        <option disabled value="bulan" {{ old('rental_type', $rental->rental_type) == 'bulan' ? 'selected' : '' }}>Bulan</option>
                     </select>
                     @error('rental_type')
                         <div class="invalid-feedback">{{ $message }}</div>

@@ -34,16 +34,21 @@ class RentalController extends Controller
         $request->validate([
             'customer_id' => 'required|exists:customers,id',
             'mobil_id' => 'required|exists:mobils,id',
-            'rental_type' => 'required|in:harian,bulanan',
+            'rental_type' => 'required|in:hari,bulan',
             'duration' => 'required|integer|min:1',
             'use_dp' => 'required|boolean',
+            'use_ppn' => 'required|boolean',
             'dp_paid' => 'nullable|numeric|min:0',
+            'services.*.service_name' => 'required|string|max:255',
+            'services.*.service_price' => 'required|numeric|min:0',
         ]);
-
+        
+    
         $this->rentalRepository->create($request->all());
-
+    
         return redirect()->route('rentals.index')->with('success', 'Rental berhasil dibuat.');
     }
+    
 
     public function show($id)
     {
