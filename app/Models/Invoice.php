@@ -11,16 +11,14 @@ class Invoice extends Model
 
     protected $fillable = ['rental_id', 'invoice_number', 'invoice_date'];
 
-    // Relasi ke Rental
     public function rental()
     {
         return $this->belongsTo(Rental::class);
     }
 
-    // Generate Nomor Invoice Format Indonesia (INV/YYYYMMDD/0001)
     public static function generateInvoiceNumber()
     {
-        $tanggal = now()->format('Ymd'); // Format: YYYYMMDD
+        $tanggal = now()->format('Ymd');
         $lastInvoice = self::whereDate('invoice_date', now())->orderBy('id', 'desc')->first();
 
         if ($lastInvoice) {

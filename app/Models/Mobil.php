@@ -9,7 +9,7 @@ class Mobil extends Model
 {
     use HasFactory;
 
-    protected $table = 'mobils'; // Nama tabel
+    protected $table = 'mobils';
 
     protected $fillable = [
         'type',
