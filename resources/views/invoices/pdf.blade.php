@@ -137,8 +137,7 @@
             <td>{{ $invoice->rental->mobil->merk }} - {{ $invoice->rental->mobil->type }}</td>
             <td>{{ $invoice->rental->duration }} {{ ucfirst($invoice->rental->rental_type) }}</td>
             <td class="text-right">Rp{{ number_format($invoice->rental->mobil->price, 2, ',', '.') }}</td>
-            <td class="text-right">
-                Rp{{ number_format($invoice->rental->mobil->price * $invoice->rental->duration, 2, ',', '.') }}</td>
+            <td class="text-right">Rp{{ number_format($invoice->rental->mobil->price * $invoice->rental->duration, 2, ',', '.') }}</td>
         </tr>
     </table>
 
@@ -186,7 +185,13 @@
         </tr>
         <tr>
             <th>Sisa Pembayaran</th>
-            <th class="text-right">Rp{{ number_format($invoice->rental->remaining_payment, 2, ',', '.') }}</th>
+            <th class="text-right">
+                @if ($invoice->rental->status == 'lunas')
+                    Rp0,00
+                @else
+                    Rp{{ number_format($invoice->rental->remaining_payment, 2, ',', '.') }}
+                @endif
+            </th>
         </tr>
     </table>
 
@@ -204,5 +209,4 @@
     </p>
 
 </body>
-
 </html>

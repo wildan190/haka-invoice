@@ -145,15 +145,33 @@
                 <th>Telah Terima Dari</th>
                 <td>: {{ $rental->customer->name }}</td>
             </tr>
-            <tr>
-                <th>Uang Sejumlah</th>
-                <td class="amount">Rp{{ number_format($rental->total_price, 2, ',', '.') }}</td>
-            </tr>
-            <tr>
-                <td colspan="2" class="terbilang">
-                    ({{ ucwords(Terbilang::make($rental->total_price)) }} Rupiah)
-                </td>
-            </tr>
+
+            @if($rental->status === 'lunas')
+                <tr>
+                    <th>Uang Sejumlah</th>
+                    <td class="amount">Rp{{ number_format($rental->total_price, 2, ',', '.') }}</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="terbilang">
+                        ({{ ucwords(Terbilang::make($rental->total_price)) }} Rupiah)
+                    </td>
+                </tr>
+            @else
+                <tr>
+                    <th>Uang Sejumlah</th>
+                    <td class="amount">Rp{{ number_format($rental->dp_paid, 2, ',', '.') }}</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="terbilang">
+                        ({{ ucwords(Terbilang::make($rental->dp_paid)) }} Rupiah)
+                    </td>
+                </tr>
+                <tr>
+                    <th>Sisa Pembayaran</th>
+                    <td class="amount">Rp{{ number_format($rental->remaining_payment, 2, ',', '.') }}</td>
+                </tr>
+            @endif
+
             <tr>
                 <th>Untuk Pembayaran</th>
                 <td>: {{ $rental->mobil->merk }} - {{ $rental->mobil->type }} Durasi {{ $rental->duration }} {{ $rental->rental_type }}</td>
