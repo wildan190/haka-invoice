@@ -42,7 +42,6 @@ class Rental extends Model
         return $this->hasMany(RentalService::class);
     }
 
-
     public function invoice()
     {
         return $this->hasOne(Invoice::class);

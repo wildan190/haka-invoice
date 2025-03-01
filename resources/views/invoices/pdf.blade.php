@@ -15,17 +15,20 @@
             padding: 30px;
             color: #333;
             font-size: 14px;
+            background-color: #f8f9fa;
         }
 
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #007BFF;
+            padding-bottom: 10px;
         }
 
         .logo img {
-            max-width: 90px;
+            max-width: 100px;
         }
 
         .company-info {
@@ -34,29 +37,32 @@
 
         .company-info h2 {
             margin: 0;
-            font-size: 20px;
+            font-size: 22px;
             font-weight: bold;
+            color: #007BFF;
         }
 
         .section-title {
-            font-size: 15px;
+            font-size: 16px;
             font-weight: bold;
             color: #007BFF;
             border-bottom: 2px solid #007BFF;
             padding-bottom: 5px;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
 
         .table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
+            margin-top: 15px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         .table th,
         .table td {
             border: 1px solid #ddd;
-            padding: 8px;
+            padding: 10px;
             text-align: left;
         }
 
@@ -67,6 +73,33 @@
 
         .text-right {
             text-align: right;
+        }
+
+        .status {
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .status-lunas {
+            background-color: #28a745;
+            color: #fff;
+        }
+
+        .status-belum-lunas {
+            background-color: #dc3545;
+            color: #fff;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 13px;
+            color: #555;
+        }
+
+        .footer strong {
+            color: #007BFF;
         }
     </style>
 </head>
@@ -80,7 +113,7 @@
         </div>
 
         <div class="company-info">
-            <h2>HAKA RENTAL <span>MOBIL</span></h2>
+            <h2>HAKA RENTAL <span style="color: #333;">MOBIL</span></h2>
             <p>Telp: +62 822 535 456 | Email: hakarentcar@gmail.com</p>
         </div>
     </div>
@@ -165,8 +198,10 @@
     </p>
 
     <!-- Footer -->
-    <p class="footer"><strong>Terima kasih telah menggunakan layanan HAKA RENTAL MOBIL</strong><br>Jika ada pertanyaan
-        lebih lanjut, silakan hubungi kami.</p>
+    <p class="footer">
+        <strong>Terima kasih telah menggunakan layanan HAKA RENTAL MOBIL</strong><br>
+        Jika ada pertanyaan lebih lanjut, silakan hubungi kami.
+    </p>
 
 </body>
 

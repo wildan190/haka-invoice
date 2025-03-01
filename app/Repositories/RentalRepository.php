@@ -21,30 +21,24 @@ class RentalRepository implements RentalRepositoryInterface
     {
         $mobil = \App\Models\Mobil::findOrFail($data['mobil_id']);
         $harga_per_unit = $mobil->price;
-    
-        // 💡 Hitung total harga rental mobil
+
         $total = $data['duration'] * $harga_per_unit;
-    
-        // 💡 Hitung total harga dari services tambahan (kalau ada)
+
         $total_service_price = 0;
         if (isset($data['services'])) {
             foreach ($data['services'] as $service) {
                 $total_service_price += $service['service_price'];
             }
         }
-    
-        // 💡 Total harga termasuk service tambahan
+
         $total += $total_service_price;
-    
-        // 💡 Hitung PPN kalau diaktifkan
+
         $ppn = $data['use_ppn'] ? $total * 0.11 : 0;
         $total_price = $total + $ppn;
-    
-        // 💡 Hitung DP & sisa pembayaran
+
         $dp_paid = $data['use_dp'] ? ($data['dp_paid'] ?? 0) : 0;
         $remaining_payment = $total_price - $dp_paid;
-    
-        // 💡 Simpan data rental ke database
+
         $rental = Rental::create([
             'customer_id' => $data['customer_id'],
             'mobil_id' => $data['mobil_id'],
@@ -58,8 +52,62 @@ class RentalRepository implements RentalRepositoryInterface
             'use_ppn' => $data['use_ppn'],
             'status' => $remaining_payment > 0 ? 'belum_lunas' : 'lunas',
         ]);
+
+        if (isset($data['services'])) {
+            foreach ($data['services'] as $service) {
+                $rental->services()->create($service);
+            }
+        }
+
+        return $rental;
+    }
+
+    public function update(int $id, array $data): ?Rental
+    {
+        $rental = Rental::find($id);
+        if (!$rental) {
+            return null;
+        }
     
-        // 💡 Simpan data service tambahan
+        $mobil = \App\Models\Mobil::findOrFail($data['mobil_id']);
+        $harga_per_unit = $mobil->price;
+    
+        $total = $data['duration'] * $harga_per_unit;
+    
+        $total_service_price = 0;
+        if (isset($data['services'])) {
+            foreach ($data['services'] as $service) {
+                $total_service_price += $service['service_price'];
+            }
+        }
+    
+        $total += $total_service_price;
+    
+        $ppn = $data['use_ppn'] ? $total * 0.11 : 0;
+        $total_price = $total + $ppn;
+    
+        $dp_paid = $data['use_dp'] ? ($data['dp_paid'] ?? 0) : 0;
+        $remaining_payment = $total_price - $dp_paid;
+    
+        // Update data rental
+        $rental->update([
+            'customer_id' => $data['customer_id'],
+            'mobil_id' => $data['mobil_id'],
+            'rental_type' => $data['rental_type'],
+            'duration' => $data['duration'],
+            'total_price' => $total_price,
+            'use_dp' => $data['use_dp'],
+            'dp_paid' => $dp_paid,
+            'remaining_payment' => $remaining_payment,
+            'ppn' => $ppn,
+            'use_ppn' => $data['use_ppn'],
+            'status' => $remaining_payment > 0 ? 'belum_lunas' : 'lunas',
+        ]);
+    
+        // Hapus layanan lama
+        $rental->services()->delete();
+    
+        // Tambah layanan baru kalau ada
         if (isset($data['services'])) {
             foreach ($data['services'] as $service) {
                 $rental->services()->create($service);
@@ -69,14 +117,6 @@ class RentalRepository implements RentalRepositoryInterface
         return $rental;
     }
     
-    public function update(int $id, array $data): ?Rental
-    {
-        $rental = Rental::find($id);
-        if ($rental) {
-            $rental->update($data);
-        }
-        return $rental;
-    }
 
     public function delete(int $id): bool
     {
