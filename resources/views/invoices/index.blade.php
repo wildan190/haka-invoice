@@ -7,7 +7,7 @@
         <h1 class="my-4">Daftar Invoice</h1>
 
         <a href="{{ route('invoices.create') }}" class="btn btn-primary mb-3">
-            <i class="fa-solid fa-plus"></i> Tambah Invoice
+            <i class="fa-solid fa-plus"></i> Buat Invoice
         </a>
 
         @if (session('success'))

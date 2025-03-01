@@ -4,13 +4,13 @@
 
 @section('content')
     <div class="container">
-        <h1 class="my-4">Tambah Rental</h1>
+        <h1 class="my-4 text-center">Tambah Rental</h1>
 
         <a href="{{ route('rentals.index') }}" class="btn btn-secondary mb-3">
             <i class="fa-solid fa-arrow-left"></i> Kembali
         </a>
 
-        <div class="card">
+        <div class="card shadow-sm">
             <div class="card-body">
                 <form action="{{ route('rentals.store') }}" method="POST">
                     @csrf
@@ -102,17 +102,17 @@
                     <div class="mb-3">
                         <label class="form-label">Layanan Tambahan</label>
                         <div id="services-container">
-                            <div class="service-row mb-2">
+                            <div class="service-row mb-2 d-flex">
                                 <input type="text" name="services[0][service_name]" placeholder="Nama Layanan"
-                                    class="form-control d-inline-block w-45" />
+                                    class="form-control me-2" />
                                 <input type="number" name="services[0][service_price]" placeholder="Harga"
-                                    class="form-control d-inline-block w-45 ml-2" />
+                                    class="form-control" />
                             </div>
                         </div>
                         <button type="button" id="add-service" class="btn btn-primary mt-2">Tambah Layanan</button>
                     </div>
 
-                    <button type="submit" class="btn btn-success">
+                    <button type="submit" class="btn btn-success w-100">
                         <i class="fa-solid fa-save"></i> Simpan
                     </button>
                 </form>
@@ -125,14 +125,49 @@
         document.getElementById('add-service').addEventListener('click', () => {
             const container = document.getElementById('services-container');
             const newService = document.createElement('div');
-            newService.className = 'service-row mb-2';
+            newService.className = 'service-row mb-2 d-flex';
             newService.innerHTML = `
-            <input type="text" name="services[${serviceIndex}][service_name]" placeholder="Nama Layanan" class="form-control d-inline-block w-45" />
-            <input type="number" name="services[${serviceIndex}][service_price]" placeholder="Harga" class="form-control d-inline-block w-45 ml-2" />
+            <input type="text" name="services[${serviceIndex}][service_name]" placeholder="Nama Layanan" class="form-control me-2" />
+            <input type="number" name="services[${serviceIndex}][service_price]" placeholder="Harga" class="form-control" />
         `;
             container.appendChild(newService);
             serviceIndex++;
         });
     </script>
 
+    <style>
+        .form-control {
+            border-radius: 0.25rem;
+        }
+
+        .btn {
+            border-radius: 0.25rem;
+        }
+
+        .card {
+            border-radius: 0.5rem;
+        }
+
+        .service-row input {
+            flex: 1;
+        }
+
+        .service-row input:first-child {
+            margin-right: 0.5rem;
+        }
+
+        @media (max-width: 576px) {
+            .service-row {
+                flex-direction: column;
+            }
+
+            .service-row input {
+                margin-bottom: 0.5rem;
+            }
+
+            .service-row input:first-child {
+                margin-right: 0;
+            }
+        }
+    </style>
 @endsection
