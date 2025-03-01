@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Repositories\Interface\RentalRepositoryInterface;
 use App\Models\Customer;
 use App\Models\Mobil;
+use Illuminate\Support\Facades\Redirect;
 
 class RentalController extends Controller
 {
