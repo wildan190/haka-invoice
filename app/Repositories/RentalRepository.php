@@ -116,9 +116,14 @@ class RentalRepository implements RentalRepositoryInterface
 
     public function delete(int $id): bool
     {
-        $rental = Rental::find($id);
-
-        return $rental ? $rental->delete() : false;
+        $rental = Rental::with('invoice')->find($id);
+    
+        if ($rental) {
+            $rental->invoice()->delete();
+            return $rental->delete();
+        }
+    
+        return false;
     }
 
     public function markAsPaid(int $id): ?Rental

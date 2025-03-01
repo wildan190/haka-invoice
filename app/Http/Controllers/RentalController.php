@@ -5,12 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\Mobil;
 use App\Repositories\Interface\RentalRepositoryInterface;
-use Illuminate\Http\Request;
-use PDF;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Storage;
 
 class RentalController extends Controller
 {
@@ -95,7 +93,7 @@ class RentalController extends Controller
     public function printReceipt($id)
     {
         $rental = $this->rentalRepository->getById($id);
-        if (!$rental) {
+        if (! $rental) {
             return redirect()->route('rentals.index')->with('error', 'Rental tidak ditemukan.');
         }
 
@@ -103,12 +101,12 @@ class RentalController extends Controller
         $base64Signature = '';
         if (file_exists($signaturePath)) {
             $signatureData = file_get_contents($signaturePath);
-            $base64Signature = 'data:image/jpeg;base64,' . base64_encode($signatureData);
+            $base64Signature = 'data:image/jpeg;base64,'.base64_encode($signatureData);
         }
 
         $pdfView = View::make('rentals.receipt', compact('rental', 'base64Signature'))->render();
 
-        $options = new Options();
+        $options = new Options;
         $options->set('isHtml5ParserEnabled', true);
         $options->set('isRemoteEnabled', true);
 
