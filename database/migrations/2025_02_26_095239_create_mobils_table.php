@@ -10,11 +10,11 @@ return new class extends Migration
     {
         Schema::create('mobils', function (Blueprint $table) {
             $table->id();
-            $table->string('type'); // Jenis mobil
-            $table->string('merk'); // Merek mobil
-            $table->decimal('price', 15, 2); // Harga mobil
-            $table->text('description')->nullable(); // Deskripsi opsional
-            $table->enum('status', ['tersedia', 'disewa', 'perawatan'])->default('tersedia'); // Status mobil
+            $table->string('type');
+            $table->string('merk');
+            $table->decimal('price', 15, 2);
+            $table->text('description')->nullable();
+            $table->enum('status', ['tersedia', 'disewa', 'perawatan'])->default('tersedia');
             $table->timestamps();
         });
     }

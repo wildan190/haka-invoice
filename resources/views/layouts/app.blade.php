@@ -159,7 +159,7 @@
             @yield('content')
         </div>
     </div>
-    <div style="height: 60px;"></div> <!-- Spacer to avoid overlap with bottom navbar -->
+    <div style="height: 60px;"></div> 
 
     <!-- Bottom Navbar (Mobile) -->
     <div class="bottom-nav">
@@ -176,7 +176,6 @@
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Highlight active link
         document.addEventListener("DOMContentLoaded", function() {
             let links = document.querySelectorAll(".nav-link");
             links.forEach(link => {
