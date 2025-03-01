@@ -29,7 +29,6 @@ class InvoiceController extends Controller
 
     public function create()
     {
-        // Ambil rental yang belum memiliki invoice
         $rentals = $this->rentalRepository->getAll();
 
         return view('invoices.create', compact('rentals'));
@@ -104,16 +103,12 @@ class InvoiceController extends Controller
     {
         $invoice = Invoice::with('rental.customer', 'rental.mobil')->findOrFail($id);
 
-        // Ambil DP yang sudah dibayarkan
         $dpPaid = $invoice->rental->dp_paid ?? 0;
 
-        // Hitung sisa pelunasan (tanpa menghitung PPN lagi)
         $remainingPayment = $invoice->rental->total_price - $dpPaid;
 
-        // Pastikan nilai tidak negatif
         $invoice->rental->remaining_payment = max(0, $remainingPayment);
 
-        // Buat invoice number aman untuk nama file
         $safeInvoiceNumber = str_replace('/', '-', $invoice->invoice_number);
 
         $pdf = PDF::loadView('invoices.pdf', compact('invoice'));

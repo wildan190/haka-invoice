@@ -10,7 +10,6 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // Ambil data statistik
         $totalCustomers = Customer::count();
         $totalMobils = Mobil::count();
         $totalPendapatan = Rental::where('status', 'lunas')->sum('total_price');

@@ -16,7 +16,7 @@ class CustomerController extends Controller
 
     public function index()
     {
-        $customers = $this->customerRepository->paginate(10); // Ambil 10 per halaman
+        $customers = $this->customerRepository->paginate(10);
 
         return view('customers.index', compact('customers'));
     }

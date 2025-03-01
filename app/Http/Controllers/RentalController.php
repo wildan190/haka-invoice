@@ -99,7 +99,6 @@ class RentalController extends Controller
             return redirect()->route('rentals.index')->with('error', 'Rental tidak ditemukan.');
         }
 
-        // Ambil tanda tangan
         $signaturePath = public_path('assets/img/ttd/ttd.jpeg');
         $base64Signature = '';
         if (file_exists($signaturePath)) {
@@ -107,10 +106,8 @@ class RentalController extends Controller
             $base64Signature = 'data:image/jpeg;base64,' . base64_encode($signatureData);
         }
 
-        // Buat view untuk PDF
         $pdfView = View::make('rentals.receipt', compact('rental', 'base64Signature'))->render();
 
-        // Konfigurasi Dompdf
         $options = new Options();
         $options->set('isHtml5ParserEnabled', true);
         $options->set('isRemoteEnabled', true);
