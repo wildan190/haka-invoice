@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Rental extends Model
 {
@@ -42,8 +43,8 @@ class Rental extends Model
         return $this->hasMany(RentalService::class);
     }
 
-    public function invoice()
+    public function invoice(): HasMany
     {
-        return $this->hasOne(Invoice::class);
+        return $this->hasMany(Invoice::class);
     }
 }
