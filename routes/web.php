@@ -54,6 +54,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
         Route::put('/{id}', [RentalController::class, 'update'])->name('rentals.update');
         Route::delete('/{id}', [RentalController::class, 'destroy'])->name('rentals.destroy');
         Route::post('/{id}/pay', [RentalController::class, 'markAsPaid'])->name('rentals.pay');
+        Route::get('/rentals/{id}/receipt', [RentalController::class, 'printReceipt'])->name('rentals.receipt');
     });
 
     Route::prefix('invoices')->group(function () {

@@ -6,6 +6,11 @@ use App\Models\Customer;
 use App\Models\Mobil;
 use App\Repositories\Interface\RentalRepositoryInterface;
 use Illuminate\Http\Request;
+use PDF;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Storage;
 
 class RentalController extends Controller
 {
@@ -85,5 +90,36 @@ class RentalController extends Controller
         $this->rentalRepository->markAsPaid($id);
 
         return redirect()->route('rentals.index')->with('success', 'Rental telah dilunasi.');
+    }
+
+    public function printReceipt($id)
+    {
+        $rental = $this->rentalRepository->getById($id);
+        if (!$rental) {
+            return redirect()->route('rentals.index')->with('error', 'Rental tidak ditemukan.');
+        }
+
+        // Ambil tanda tangan
+        $signaturePath = public_path('assets/img/ttd/ttd.jpeg');
+        $base64Signature = '';
+        if (file_exists($signaturePath)) {
+            $signatureData = file_get_contents($signaturePath);
+            $base64Signature = 'data:image/jpeg;base64,' . base64_encode($signatureData);
+        }
+
+        // Buat view untuk PDF
+        $pdfView = View::make('rentals.receipt', compact('rental', 'base64Signature'))->render();
+
+        // Konfigurasi Dompdf
+        $options = new Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isRemoteEnabled', true);
+
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml($pdfView);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        return $dompdf->stream("kwitansi_rental_{$rental->id}.pdf");
     }
 }

@@ -10,7 +10,7 @@
             <i class="fa-solid fa-arrow-left"></i> Kembali
         </a>
 
-        <div class="card shadow-sm">
+        <div class="card shadow-sm mb-4">
             <div class="card-body">
                 <h5 class="mb-3"><strong>Customer:</strong> {{ $rental->customer->name }}</h5>
                 <h5 class="mb-3"><strong>Mobil:</strong> {{ $rental->mobil->merk }} - {{ $rental->mobil->type }}</h5>
@@ -19,7 +19,7 @@
             </div>
         </div>
 
-        <div class="card shadow-sm mt-4">
+        <div class="card shadow-sm mb-4">
             <div class="card-body">
                 <h3 class="mb-3">Layanan Tambahan</h3>
                 <ul class="list-group">
@@ -32,5 +32,9 @@
                 </ul>
             </div>
         </div>
+
+        <a href="{{ route('rentals.receipt', $rental->id) }}" class="btn btn-primary my-3" target="_blank">
+            <i class="fa-solid fa-file-pdf"></i> Cetak Kwitansi
+        </a>
     </div>
 @endsection
