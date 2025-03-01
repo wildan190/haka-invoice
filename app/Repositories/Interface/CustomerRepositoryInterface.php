@@ -11,8 +11,8 @@ interface CustomerRepositoryInterface
     public function getAll(): Collection;
 
     public function paginate(int $perPage): LengthAwarePaginator; // Tambahkan ini
-    public function getAvailableCustomers();
 
+    public function getAvailableCustomers();
 
     public function getById(int $id): ?Customer;
 

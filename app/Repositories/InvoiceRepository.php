@@ -27,6 +27,7 @@ class InvoiceRepository implements InvoiceRepositoryInterface
         }
 
         $data['invoice_number'] = Invoice::generateInvoiceNumber(); // Generate nomor invoice
+
         return Invoice::create($data);
     }
 
@@ -36,6 +37,7 @@ class InvoiceRepository implements InvoiceRepositoryInterface
         if ($invoice) {
             $invoice->update($data);
         }
+
         return $invoice;
     }
 
@@ -45,6 +47,7 @@ class InvoiceRepository implements InvoiceRepositoryInterface
         if ($invoice) {
             return $invoice->delete();
         }
+
         return false;
     }
 }

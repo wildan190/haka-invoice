@@ -17,6 +17,7 @@ class MobilController extends Controller
     public function index()
     {
         $mobils = $this->mobilRepository->paginate(10);
+
         return view('mobils.index', compact('mobils'));
     }
 
@@ -43,7 +44,7 @@ class MobilController extends Controller
     public function show($id)
     {
         $mobil = $this->mobilRepository->getById($id);
-        if (!$mobil) {
+        if (! $mobil) {
             return redirect()->route('mobils.index')->with('error', 'Mobil tidak ditemukan.');
         }
 
@@ -53,7 +54,7 @@ class MobilController extends Controller
     public function edit($id)
     {
         $mobil = $this->mobilRepository->getById($id);
-        if (!$mobil) {
+        if (! $mobil) {
             return redirect()->route('mobils.index')->with('error', 'Mobil tidak ditemukan.');
         }
 
@@ -72,7 +73,7 @@ class MobilController extends Controller
 
         $mobil = $this->mobilRepository->update($id, $request->all());
 
-        if (!$mobil) {
+        if (! $mobil) {
             return redirect()->route('mobils.index')->with('error', 'Gagal memperbarui mobil.');
         }
 
@@ -83,7 +84,7 @@ class MobilController extends Controller
     {
         $deleted = $this->mobilRepository->delete($id);
 
-        if (!$deleted) {
+        if (! $deleted) {
             return redirect()->route('mobils.index')->with('error', 'Gagal menghapus mobil.');
         }
 

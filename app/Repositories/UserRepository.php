@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Repositories\Interface\UserRepositoryInterface;
 use App\Models\User;
+use App\Repositories\Interface\UserRepositoryInterface;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -26,12 +26,14 @@ class UserRepository implements UserRepositoryInterface
     {
         $user = User::findOrFail($id);
         $user->update($data);
+
         return $user;
     }
 
     public function deleteUser($id)
     {
         $user = User::findOrFail($id);
+
         return $user->delete();
     }
 }

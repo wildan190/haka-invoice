@@ -11,6 +11,7 @@ use PDF;
 class InvoiceController extends Controller
 {
     protected $invoiceRepository;
+
     protected $rentalRepository;
 
     public function __construct(InvoiceRepositoryInterface $invoiceRepository, RentalRepositoryInterface $rentalRepository)
@@ -22,6 +23,7 @@ class InvoiceController extends Controller
     public function index()
     {
         $invoices = $this->invoiceRepository->getAll();
+
         return view('invoices.index', compact('invoices'));
     }
 
@@ -29,6 +31,7 @@ class InvoiceController extends Controller
     {
         // Ambil rental yang belum memiliki invoice
         $rentals = $this->rentalRepository->getAll();
+
         return view('invoices.create', compact('rentals'));
     }
 
@@ -43,7 +46,7 @@ class InvoiceController extends Controller
 
         $invoice = $this->invoiceRepository->create($data);
 
-        if (!$invoice) {
+        if (! $invoice) {
             return redirect()->route('invoices.create')->with('error', 'Invoice untuk rental ini sudah ada!');
         }
 
@@ -53,7 +56,7 @@ class InvoiceController extends Controller
     public function show($id)
     {
         $invoice = $this->invoiceRepository->getById($id);
-        if (!$invoice) {
+        if (! $invoice) {
             return redirect()->route('invoices.index')->with('error', 'Invoice tidak ditemukan.');
         }
 
@@ -63,7 +66,7 @@ class InvoiceController extends Controller
     public function edit($id)
     {
         $invoice = $this->invoiceRepository->getById($id);
-        if (!$invoice) {
+        if (! $invoice) {
             return redirect()->route('invoices.index')->with('error', 'Invoice tidak ditemukan.');
         }
 
@@ -79,7 +82,7 @@ class InvoiceController extends Controller
         $data = $request->only(['invoice_date']);
         $invoice = $this->invoiceRepository->update($id, $data);
 
-        if (!$invoice) {
+        if (! $invoice) {
             return redirect()->route('invoices.index')->with('error', 'Gagal memperbarui invoice.');
         }
 
@@ -90,7 +93,7 @@ class InvoiceController extends Controller
     {
         $deleted = $this->invoiceRepository->delete($id);
 
-        if (!$deleted) {
+        if (! $deleted) {
             return redirect()->route('invoices.index')->with('error', 'Gagal menghapus invoice.');
         }
 

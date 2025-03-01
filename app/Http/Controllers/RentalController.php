@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Repositories\Interface\RentalRepositoryInterface;
 use App\Models\Customer;
 use App\Models\Mobil;
-use Illuminate\Support\Facades\Redirect;
+use App\Repositories\Interface\RentalRepositoryInterface;
+use Illuminate\Http\Request;
 
 class RentalController extends Controller
 {
@@ -20,6 +19,7 @@ class RentalController extends Controller
     public function index()
     {
         $rentals = $this->rentalRepository->getAll();
+
         return view('rentals.index', compact('rentals'));
     }
 
@@ -27,6 +27,7 @@ class RentalController extends Controller
     {
         $customers = Customer::doesntHave('rentals')->get();
         $mobils = Mobil::all();
+
         return view('rentals.create', compact('customers', 'mobils'));
     }
 
@@ -43,17 +44,16 @@ class RentalController extends Controller
             'services.*.service_name' => 'required|string|max:255',
             'services.*.service_price' => 'required|numeric|min:0',
         ]);
-        
-    
+
         $this->rentalRepository->create($request->all());
-    
+
         return redirect()->route('rentals.index')->with('success', 'Rental berhasil dibuat.');
     }
-    
 
     public function show($id)
     {
         $rental = $this->rentalRepository->getById($id);
+
         return view('rentals.show', compact('rental'));
     }
 
@@ -62,24 +62,28 @@ class RentalController extends Controller
         $rental = $this->rentalRepository->getById($id);
         $customers = Customer::where('id', $rental->customer_id)->get();
         $mobils = Mobil::all();
+
         return view('rentals.edit', compact('rental', 'customers', 'mobils'));
     }
 
     public function update(Request $request, $id)
     {
         $this->rentalRepository->update($id, $request->all());
+
         return redirect()->route('rentals.index')->with('success', 'Rental berhasil diperbarui.');
     }
 
     public function destroy($id)
     {
         $this->rentalRepository->delete($id);
+
         return redirect()->route('rentals.index')->with('success', 'Rental berhasil dihapus.');
     }
 
     public function markAsPaid($id)
     {
         $this->rentalRepository->markAsPaid($id);
+
         return redirect()->route('rentals.index')->with('success', 'Rental telah dilunasi.');
     }
 }

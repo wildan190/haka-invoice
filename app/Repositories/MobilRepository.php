@@ -35,6 +35,7 @@ class MobilRepository implements MobilRepositoryInterface
         if ($mobil) {
             $mobil->update($data);
         }
+
         return $mobil;
     }
 
@@ -44,6 +45,7 @@ class MobilRepository implements MobilRepositoryInterface
         if ($mobil) {
             return $mobil->delete();
         }
+
         return false;
     }
 }

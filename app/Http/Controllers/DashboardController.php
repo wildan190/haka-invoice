@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Customer;
 use App\Models\Mobil;
 use App\Models\Rental;
-use App\Models\Invoice;
 
 class DashboardController extends Controller
 {

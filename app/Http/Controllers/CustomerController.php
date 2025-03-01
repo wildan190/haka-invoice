@@ -17,6 +17,7 @@ class CustomerController extends Controller
     public function index()
     {
         $customers = $this->customerRepository->paginate(10); // Ambil 10 per halaman
+
         return view('customers.index', compact('customers'));
     }
 
@@ -42,7 +43,7 @@ class CustomerController extends Controller
     public function show($id)
     {
         $customer = $this->customerRepository->getById($id);
-        if (!$customer) {
+        if (! $customer) {
             return redirect()->route('customers.index')->with('error', 'Customer not found.');
         }
 
@@ -52,7 +53,7 @@ class CustomerController extends Controller
     public function edit($id)
     {
         $customer = $this->customerRepository->getById($id);
-        if (!$customer) {
+        if (! $customer) {
             return redirect()->route('customers.index')->with('error', 'Customer not found.');
         }
 
@@ -63,13 +64,13 @@ class CustomerController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:customers,email,' . $id,
+            'email' => 'required|email|unique:customers,email,'.$id,
             'phone_number' => 'nullable|string|max:20',
             'address' => 'nullable|string',
         ]);
 
         $customer = $this->customerRepository->update($id, $validated);
-        if (!$customer) {
+        if (! $customer) {
             return redirect()->route('customers.index')->with('error', 'Customer not found.');
         }
 
@@ -79,7 +80,7 @@ class CustomerController extends Controller
     public function destroy($id)
     {
         $deleted = $this->customerRepository->delete($id);
-        if (!$deleted) {
+        if (! $deleted) {
             return redirect()->route('customers.index')->with('error', 'Customer not found.');
         }
 

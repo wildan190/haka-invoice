@@ -19,7 +19,6 @@ class CustomerRepository implements CustomerRepositoryInterface
         return Customer::whereDoesntHave('rents')->get();
     }
 
-
     public function paginate(int $perPage): LengthAwarePaginator
     {
         return Customer::paginate($perPage); // Gunakan paginate()
@@ -41,6 +40,7 @@ class CustomerRepository implements CustomerRepositoryInterface
         if ($customer) {
             $customer->update($data);
         }
+
         return $customer;
     }
 
@@ -50,6 +50,7 @@ class CustomerRepository implements CustomerRepositoryInterface
         if ($customer) {
             return $customer->delete();
         }
+
         return false;
     }
 }

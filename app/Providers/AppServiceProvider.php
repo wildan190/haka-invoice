@@ -2,17 +2,18 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use App\Repositories\CustomerRepository;
 use App\Repositories\Interface\CustomerRepositoryInterface;
+use App\Repositories\Interface\InvoiceRepositoryInterface;
 use App\Repositories\Interface\MobilRepositoryInterface;
 use App\Repositories\Interface\RentalRepositoryInterface;
-use App\Repositories\Interface\InvoiceRepositoryInterface;
 use App\Repositories\Interface\UserRepositoryInterface;
-use App\Repositories\UserRepository;
 use App\Repositories\InvoiceRepository;
-use App\Repositories\CustomerRepository;
 use App\Repositories\MobilRepository;
 use App\Repositories\RentalRepository;
+use App\Repositories\UserRepository;
+use Illuminate\Support\ServiceProvider;
+
 // use App\Repository\UserRepository as RepositoryUserRepository;
 
 class AppServiceProvider extends ServiceProvider
