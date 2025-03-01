@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Invoice;
-use App\Models\Rental;
 use App\Repositories\Interface\InvoiceRepositoryInterface;
 use Illuminate\Pagination\LengthAwarePaginator;
 
