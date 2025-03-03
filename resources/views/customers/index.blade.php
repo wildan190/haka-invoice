@@ -93,7 +93,7 @@
                                     class="d-inline delete-form">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="button" class="btn btn-danger btn-sm delete-button">
+                                    <button type="button" class="btn btn-danger btn-md w-100 delete-button">
                                         <i class="fa-solid fa-trash"></i> Hapus
                                     </button>
                                 </form>
