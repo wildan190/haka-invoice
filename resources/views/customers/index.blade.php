@@ -43,11 +43,10 @@
                                     <i class="fa-solid fa-pen"></i> Edit
                                 </a>
                                 <form action="{{ route('customers.destroy', $customer->id) }}" method="POST"
-                                    class="d-inline">
+                                    class="d-inline delete-form">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm"
-                                        onclick="return confirm('Hapus customer ini?')">
+                                    <button type="button" class="btn btn-danger btn-sm delete-button">
                                         <i class="fa-solid fa-trash"></i> Hapus
                                     </button>
                                 </form>
@@ -91,11 +90,10 @@
                                     <i class="fa-solid fa-pen"></i> Edit
                                 </a>
                                 <form action="{{ route('customers.destroy', $customer->id) }}" method="POST"
-                                    class="d-grid">
+                                    class="d-inline delete-form">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-md w-100"
-                                        onclick="return confirm('Hapus customer ini?')">
+                                    <button type="button" class="btn btn-danger btn-sm delete-button">
                                         <i class="fa-solid fa-trash"></i> Hapus
                                     </button>
                                 </form>
