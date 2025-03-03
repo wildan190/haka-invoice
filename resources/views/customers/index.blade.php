@@ -105,8 +105,7 @@
                 <p class="text-center text-muted">Tidak ada customer.</p>
             @endforelse
         </div>
-
-
+        
         <!-- Pagination -->
         <div class="d-flex justify-content-center">
             {{ $customers->links('vendor.pagination.bootstrap-5') }}
