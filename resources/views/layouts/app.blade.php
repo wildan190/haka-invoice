@@ -149,7 +149,7 @@
             @yield('content')
         </div>
     </div>
-    <div style="height: 60px;"></div> 
+    <div style="height: 60px;"></div>
 
     <!-- Bottom Navbar (Mobile) -->
     <div class="bottom-nav">
@@ -165,6 +165,8 @@
 
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             let links = document.querySelectorAll(".nav-link");
