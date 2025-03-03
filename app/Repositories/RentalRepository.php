@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Rental;
+use Illuminate\Support\Facades\DB;
 use App\Repositories\Interface\RentalRepositoryInterface;
 
 class RentalRepository implements RentalRepositoryInterface
@@ -62,33 +63,44 @@ class RentalRepository implements RentalRepositoryInterface
         return $rental;
     }
 
-    public function update(int $id, array $data): ?Rental
-    {
-        $rental = Rental::find($id);
-        if (! $rental) {
-            return null;
-        }
+public function update(int $id, array $data): ?Rental
+{
+    $rental = Rental::find($id);
+    if (! $rental) {
+        return null;
+    }
 
-        $mobil = \App\Models\Mobil::findOrFail($data['mobil_id']);
-        $harga_per_unit = $mobil->price;
+    $mobil = \App\Models\Mobil::findOrFail($data['mobil_id']);
+    $harga_per_unit = $mobil->price;
 
-        $total = $data['duration'] * $harga_per_unit;
+    $total = $data['duration'] * $harga_per_unit;
 
-        $total_service_price = 0;
-        if (isset($data['services'])) {
-            foreach ($data['services'] as $service) {
-                $total_service_price += $service['service_price'];
-            }
-        }
+    // Hitung total harga services baru
+    $total_service_price = array_sum(array_column($data['services'] ?? [], 'service_price'));
 
-        $total += $total_service_price;
+    // Tambahkan harga services ke total
+    $total += $total_service_price;
 
-        $ppn = $data['use_ppn'] ? $total * 0.11 : 0;
-        $total_price = $total + $ppn;
+    // Hitung PPN jika ada
+    $ppn = $data['use_ppn'] ? $total * 0.11 : 0;
+    $total_price = $total + $ppn;
 
-        $dp_paid = $data['use_dp'] ? ($data['dp_paid'] ?? 0) : 0;
+    // Menghitung ulang remaining_payment
+    $dp_paid = $data['use_dp'] ? ($data['dp_paid'] ?? 0) : 0;
+
+    // Cek jika status saat ini lunas dan ada services baru
+    if ($rental->status === 'lunas' && $total_service_price > 0) {
+        $remaining_payment = $total_price - $rental->total_price;
+    } else {
         $remaining_payment = $total_price - $dp_paid;
+    }
 
+    // Update status pembayaran
+    $status = $remaining_payment > 0 ? 'belum_lunas' : 'lunas';
+
+    // Menggunakan transaksi database
+    DB::transaction(function () use ($rental, $data, $dp_paid, $total_price, $remaining_payment, $ppn, $status) {
+        // Update data rental
         $rental->update([
             'customer_id' => $data['customer_id'],
             'mobil_id' => $data['mobil_id'],
@@ -100,19 +112,23 @@ class RentalRepository implements RentalRepositoryInterface
             'remaining_payment' => $remaining_payment,
             'ppn' => $ppn,
             'use_ppn' => $data['use_ppn'],
-            'status' => $remaining_payment > 0 ? 'belum_lunas' : 'lunas',
+            'status' => $status,
         ]);
 
+        // Hapus services lama
         $rental->services()->delete();
 
+        // Tambah services baru jika ada
         if (isset($data['services'])) {
             foreach ($data['services'] as $service) {
                 $rental->services()->create($service);
             }
         }
+    });
 
-        return $rental;
-    }
+    return $rental;
+}
+
 
     public function delete(int $id): bool
     {
