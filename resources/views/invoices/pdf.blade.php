@@ -12,57 +12,61 @@
 
         body {
             font-family: Arial, sans-serif;
-            padding: 30px;
+            padding: 0 20px;
             color: #333;
-            font-size: 14px;
             background-color: #f8f9fa;
         }
 
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
         .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
+            text-align: center;
+            margin-bottom: 20px;
             border-bottom: 2px solid #007BFF;
             padding-bottom: 10px;
         }
 
-        .logo img {
-            max-width: 100px;
-        }
-
-        .company-info {
-            text-align: right;
-        }
-
-        .company-info h2 {
+        .header h2 {
             margin: 0;
-            font-size: 22px;
-            font-weight: bold;
             color: #007BFF;
+        }
+
+        .header p {
+            margin: 5px 0;
         }
 
         .section-title {
             font-size: 16px;
             font-weight: bold;
             color: #007BFF;
-            border-bottom: 2px solid #007BFF;
-            padding-bottom: 5px;
-            margin-bottom: 15px;
+            margin-bottom: 5px;
+        }
+
+        .info-table {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .info-table td {
+            padding: 5px 0;
         }
 
         .table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 15px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
         }
 
         .table th,
         .table td {
             border: 1px solid #ddd;
-            padding: 10px;
+            padding: 8px;
             text-align: left;
         }
 
@@ -76,7 +80,7 @@
         }
 
         .status {
-            padding: 5px 10px;
+            padding: 3px 8px;
             border-radius: 5px;
             font-weight: bold;
         }
@@ -93,7 +97,7 @@
 
         .footer {
             text-align: center;
-            margin-top: 30px;
+            margin-top: 20px;
             font-size: 13px;
             color: #555;
         }
@@ -106,107 +110,129 @@
 
 <body>
 
-    <!-- Header -->
-    <div class="header">
-        <div class="logo">
-            {{-- <img src="{{ public_path('assets/img/emblem.png') }}" alt="HAKA RENTAL MOBIL"> --}}
-        </div>
-
-        <div class="company-info">
-            <h2>HAKA RENTAL <span style="color: #333;">MOBIL</span></h2>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h2>HAKA RENTAL MOBIL</h2>
             <p>Telp: +62 822 535 456 | Email: hakarentcar@gmail.com</p>
         </div>
-    </div>
 
-    <!-- Invoice Info -->
-    <p class="section-title">Invoice: {{ $invoice->invoice_number }}</p>
-    <p><strong>Tanggal:</strong> {{ \Carbon\Carbon::parse($invoice->invoice_date)->format('d-m-Y') }}</p>
+        <!-- Informasi Pelanggan -->
+        <p class="section-title">Informasi Pelanggan</p>
+        <table class="info-table">
+            <tr>
+                <td style="width: 150px; vertical-align: top;"><strong>Nama:</strong></td>
+                <td>{{ $invoice->rental->customer->name }}</td>
+            </tr>
+            <tr>
+                <td style="width: 150px; vertical-align: top;"><strong>Email:</strong></td>
+                <td>{{ $invoice->rental->customer->email }}</td>
+            </tr>
+            <tr>
+                <td style="width: 150px; vertical-align: top;"><strong>Telepon:</strong></td>
+                <td>{{ $invoice->rental->customer->phone_number }}</td>
+            </tr>
+            <tr>
+                <td style="width: 150px; vertical-align: top;"><strong>Alamat:</strong></td>
+                <td>{{ $invoice->rental->customer->address }}</td>
+            </tr>
+        </table>
 
-    <!-- Detail Penyewaan -->
-    <p class="section-title">Detail Penyewaan</p>
-    <table class="table">
-        <tr>
-            <th>No.</th>
-            <th>Jenis Mobil</th>
-            <th>Durasi Sewa</th>
-            <th class="text-right">Harga Sewa per {{ ucfirst($invoice->rental->rental_type) }} (Rp)</th>
-            <th class="text-right">Total Harga (Rp)</th>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>{{ $invoice->rental->mobil->merk }} - {{ $invoice->rental->mobil->type }}</td>
-            <td>{{ $invoice->rental->duration }} {{ ucfirst($invoice->rental->rental_type) }}</td>
-            <td class="text-right">Rp{{ number_format($invoice->rental->mobil->price, 2, ',', '.') }}</td>
-            <td class="text-right">Rp{{ number_format($invoice->rental->mobil->price * $invoice->rental->duration, 2, ',', '.') }}</td>
-        </tr>
-    </table>
-
-    <!-- Additional Services -->
-    @if ($invoice->rental->services->isNotEmpty())
-        <p class="section-title">Layanan Tambahan</p>
+        <!-- Informasi Invoice -->
+        <p class="section-title">Informasi Invoice</p>
+        <table class="info-table">
+            <tr>
+                <td style="width: 150px; vertical-align: top;"><strong>Invoice:</strong></td>
+                <td>{{ $invoice->invoice_number }}</td>
+            </tr>
+            <tr>
+                <td style="width: 150px; vertical-align: top;"><strong>Tanggal:</strong></td>
+                <td>{{ \Carbon\Carbon::parse($invoice->invoice_date)->format('d-m-Y') }}</td>
+            </tr>
+        </table>
+        
+        <!-- Detail Penyewaan -->
+        <p class="section-title">Detail Penyewaan</p>
         <table class="table">
             <tr>
-                <th>No.</th>
-                <th>Nama Layanan</th>
-                <th class="text-right">Harga (Rp)</th>
+                <th>Jenis Mobil</th>
+                <th>Durasi</th>
+                <th class="text-right">Harga Sewa (Rp)</th>
+                <th class="text-right">Total (Rp)</th>
             </tr>
-            @foreach ($invoice->rental->services as $index => $service)
-                <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ $service->service_name }}</td>
-                    <td class="text-right">Rp{{ number_format($service->service_price, 2, ',', '.') }}</td>
-                </tr>
-            @endforeach
+            <tr>
+                <td>{{ $invoice->rental->mobil->merk }} - {{ $invoice->rental->mobil->type }}</td>
+                <td>{{ $invoice->rental->duration }} {{ ucfirst($invoice->rental->rental_type) }}</td>
+                <td class="text-right">Rp{{ number_format($invoice->rental->mobil->price, 2, ',', '.') }}</td>
+                <td class="text-right">
+                    Rp{{ number_format($invoice->rental->mobil->price * $invoice->rental->duration, 2, ',', '.') }}
+                </td>
+            </tr>
         </table>
-    @endif
 
-    <!-- Rincian Pembayaran -->
-    <p class="section-title">Rincian Pembayaran</p>
-    <table class="table">
-        <tr>
-            <th>Deskripsi</th>
-            <th class="text-right">Jumlah (Rp)</th>
-        </tr>
-        <tr>
-            <td>Total Harga (Sebelum PPN)</td>
-            <td class="text-right">Rp{{ number_format($invoice->rental->total_price - $invoice->rental->ppn, 2, ',', '.') }}</td>
-        </tr>
-        <tr>
-            <td>PPN 11%</td>
-            <td class="text-right">Rp{{ number_format($invoice->rental->ppn, 2, ',', '.') }}</td>
-        </tr>
-        <tr>
-            <th>Total Harga (Termasuk PPN)</th>
-            <th class="text-right">Rp{{ number_format($invoice->rental->total_price, 2, ',', '.') }}</th>
-        </tr>
-        <tr>
-            <td>DP Dibayar</td>
-            <td class="text-right">Rp{{ number_format($invoice->rental->dp_paid, 2, ',', '.') }}</td>
-        </tr>
-        <tr>
-            <th>Sisa Pembayaran</th>
-            <th class="text-right">
-                @if ($invoice->rental->status == 'lunas')
-                    Rp0,00
-                @else
-                    Rp{{ number_format($invoice->rental->remaining_payment, 2, ',', '.') }}
-                @endif
-            </th>
-        </tr>
-    </table>
+        <!-- Layanan Tambahan -->
+        @if ($invoice->rental->services->isNotEmpty())
+            <p class="section-title">Layanan Tambahan</p>
+            <table class="table">
+                <tr>
+                    <th>Nama Layanan</th>
+                    <th class="text-right">Harga (Rp)</th>
+                </tr>
+                @foreach ($invoice->rental->services as $service)
+                    <tr>
+                        <td>{{ $service->service_name }}</td>
+                        <td class="text-right">Rp{{ number_format($service->service_price, 2, ',', '.') }}</td>
+                    </tr>
+                @endforeach
+            </table>
+        @endif
 
-    <!-- Status Pembayaran -->
-    <p><strong>Status Pembayaran:</strong>
-        <span class="status {{ $invoice->rental->status == 'lunas' ? 'status-lunas' : 'status-belum-lunas' }}">
-            {{ ucfirst($invoice->rental->status) }}
-        </span>
-    </p>
+        <!-- Rincian Pembayaran -->
+        <p class="section-title">Rincian Pembayaran</p>
+        <table class="table">
+            <tr>
+                <td>Total Harga (Sebelum PPN)</td>
+                <td class="text-right">
+                    Rp{{ number_format($invoice->rental->total_price - $invoice->rental->ppn, 2, ',', '.') }}</td>
+            </tr>
+            <tr>
+                <td>PPN 11%</td>
+                <td class="text-right">Rp{{ number_format($invoice->rental->ppn, 2, ',', '.') }}</td>
+            </tr>
+            <tr>
+                <th>Total (Termasuk PPN)</th>
+                <th class="text-right">Rp{{ number_format($invoice->rental->total_price, 2, ',', '.') }}</th>
+            </tr>
+            <tr>
+                <td>DP Dibayar</td>
+                <td class="text-right">Rp{{ number_format($invoice->rental->dp_paid, 2, ',', '.') }}</td>
+            </tr>
+            <tr>
+                <th>Sisa Pembayaran</th>
+                <th class="text-right">
+                    @if ($invoice->rental->status == 'lunas')
+                        Rp0,00
+                    @else
+                        Rp{{ number_format($invoice->rental->remaining_payment, 2, ',', '.') }}
+                    @endif
+                </th>
+            </tr>
+        </table>
 
-    <!-- Footer -->
-    <p class="footer">
-        <strong>Terima kasih telah menggunakan layanan HAKA RENTAL MOBIL</strong><br>
-        Jika ada pertanyaan lebih lanjut, silakan hubungi kami.
-    </p>
+        <!-- Status Pembayaran -->
+        <p><strong>Status Pembayaran:</strong>
+            <span class="status {{ $invoice->rental->status == 'lunas' ? 'status-lunas' : 'status-belum-lunas' }}">
+                {{ ucfirst($invoice->rental->status) }}
+            </span>
+        </p>
+
+        <!-- Footer -->
+        <p class="footer">
+            <strong>Terima kasih telah menggunakan layanan HAKA RENTAL MOBIL</strong><br>
+            Jika ada pertanyaan lebih lanjut, silakan hubungi kami.
+        </p>
+    </div>
 
 </body>
+
 </html>
