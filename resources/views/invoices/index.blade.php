@@ -47,11 +47,10 @@
                                         <i class="fa-solid fa-file-pdf"></i> PDF
                                     </a>
                                     <form action="{{ route('invoices.destroy', $invoice->id) }}" method="POST"
-                                        class="d-inline">
+                                        class="d-inline delete-form">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm"
-                                            onclick="return confirm('Hapus invoice ini?')">
+                                        <button type="button" class="btn btn-danger btn-sm delete-button">
                                             <i class="fa-solid fa-trash"></i> Hapus
                                         </button>
                                     </form>
@@ -96,11 +95,10 @@
                                         <i class="fa-solid fa-file-pdf"></i> PDF
                                     </a>
                                     <form action="{{ route('invoices.destroy', $invoice->id) }}" method="POST"
-                                        class="d-grid">
+                                        class="d-grid delete-form">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-md w-100"
-                                            onclick="return confirm('Hapus invoice ini?')">
+                                        <button type="button" class="btn btn-danger btn-md w-100 delete-button">
                                             <i class="fa-solid fa-trash"></i> Hapus
                                         </button>
                                     </form>
@@ -117,4 +115,33 @@
             </div>
         @endif
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const deleteButtons = document.querySelectorAll('.delete-button');
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    const form = button.closest('.delete-form');
+
+                    Swal.fire({
+                        title: 'Yakin ingin menghapus?',
+                        text: "Data yang dihapus tidak bisa dikembalikan!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: 'Yakin',
+                        cancelButtonText: 'Tidak'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
 @endsection
