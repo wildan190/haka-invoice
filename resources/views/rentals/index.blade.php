@@ -48,21 +48,24 @@
                                     <a href="{{ route('rentals.show', $rental->id) }}" class="btn btn-info btn-sm">
                                         <i class="fa-solid fa-eye"></i> Lihat
                                     </a>
-                                    <a href="{{ route('rentals.edit', $rental->id) }}" class="btn btn-warning btn-sm">
-                                        <i class="fa-solid fa-pen"></i> Edit
-                                    </a>
-                                    <form action="{{ route('rentals.destroy', $rental->id) }}" method="POST" class="d-inline">
+                                    @if ($rental->status != 'lunas')
+                                        <a href="{{ route('rentals.edit', $rental->id) }}" class="btn btn-warning btn-sm">
+                                            <i class="fa-solid fa-pen"></i> Edit
+                                        </a>
+                                    @endif
+                                    <form action="{{ route('rentals.destroy', $rental->id) }}" method="POST"
+                                        class="d-inline delete-form">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm"
-                                            onclick="return confirm('Hapus rental ini?')">
+                                        <button type="button" class="btn btn-danger btn-sm delete-button">
                                             <i class="fa-solid fa-trash"></i> Hapus
                                         </button>
                                     </form>
                                     @if ($rental->status == 'belum_lunas')
-                                        <form action="{{ route('rentals.pay', $rental->id) }}" method="POST" class="d-inline">
+                                        <form action="{{ route('rentals.pay', $rental->id) }}" method="POST"
+                                            class="d-inline lunasi-form">
                                             @csrf
-                                            <button type="submit" class="btn btn-success btn-sm">
+                                            <button type="button" class="btn btn-success btn-sm lunasi-button">
                                                 <i class="fa-solid fa-money-bill-wave"></i> Lunasi
                                             </button>
                                         </form>
@@ -105,21 +108,23 @@
                                     <a href="{{ route('rentals.show', $rental->id) }}" class="btn btn-info btn-md w-100">
                                         <i class="fa-solid fa-eye"></i> Lihat
                                     </a>
-                                    <a href="{{ route('rentals.edit', $rental->id) }}" class="btn btn-warning btn-md w-100">
+                                    <a href="{{ route('rentals.edit', $rental->id) }}"
+                                        class="btn btn-warning btn-md w-100">
                                         <i class="fa-solid fa-pen"></i> Edit
                                     </a>
-                                    <form action="{{ route('rentals.destroy', $rental->id) }}" method="POST" class="d-grid">
+                                    <form action="{{ route('rentals.destroy', $rental->id) }}" method="POST"
+                                        class="d-grid delete-form">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-md w-100"
-                                            onclick="return confirm('Hapus rental ini?')">
+                                        <button type="button" class="btn btn-danger btn-md w-100 delete-button">
                                             <i class="fa-solid fa-trash"></i> Hapus
                                         </button>
                                     </form>
                                     @if ($rental->status == 'belum_lunas')
-                                        <form action="{{ route('rentals.pay', $rental->id) }}" method="POST" class="d-grid">
+                                        <form action="{{ route('rentals.pay', $rental->id) }}" method="POST"
+                                            class="d-grid lunasi-form">
                                             @csrf
-                                            <button type="submit" class="btn btn-success btn-md w-100">
+                                            <button type="button" class="btn btn-success btn-md w-100 lunasi-button">
                                                 <i class="fa-solid fa-money-bill-wave"></i> Lunasi
                                             </button>
                                         </form>
@@ -137,4 +142,66 @@
             </div>
         @endif
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Semua tombol dengan kelas .lunasi-button
+            const lunasiButtons = document.querySelectorAll('.lunasi-button');
+
+            lunasiButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    // Dapatkan form terdekat
+                    const form = button.closest('.lunasi-form');
+
+                    Swal.fire({
+                        title: 'Yakin ingin melunasi?',
+                        text: "Transaksi ini akan dianggap lunas, dan data tidak bisa diubah lagi!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#28a745',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yakin',
+                        cancelButtonText: 'Tidak'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit(); // Kirim form jika konfirmasi "Yakin"
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Semua tombol dengan kelas .delete-button
+            const deleteButtons = document.querySelectorAll('.delete-button');
+
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    // Dapatkan form terdekat
+                    const form = button.closest('.delete-form');
+
+                    Swal.fire({
+                        title: 'Yakin ingin menghapus?',
+                        text: "Data yang dihapus tidak bisa dikembalikan!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: 'Yakin',
+                        cancelButtonText: 'Tidak'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit(); // Kirim form jika konfirmasi "Yakin"
+                        }
+                    });
+                });
+            });
+        });
+    </script>
 @endsection
