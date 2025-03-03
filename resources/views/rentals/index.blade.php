@@ -145,14 +145,12 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Semua tombol dengan kelas .lunasi-button
             const lunasiButtons = document.querySelectorAll('.lunasi-button');
 
             lunasiButtons.forEach(button => {
                 button.addEventListener('click', function(e) {
                     e.preventDefault();
 
-                    // Dapatkan form terdekat
                     const form = button.closest('.lunasi-form');
 
                     Swal.fire({
@@ -166,7 +164,7 @@
                         cancelButtonText: 'Tidak'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            form.submit(); // Kirim form jika konfirmasi "Yakin"
+                            form.submit();
                         }
                     });
                 });
@@ -176,14 +174,12 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Semua tombol dengan kelas .delete-button
             const deleteButtons = document.querySelectorAll('.delete-button');
 
             deleteButtons.forEach(button => {
                 button.addEventListener('click', function(e) {
                     e.preventDefault();
 
-                    // Dapatkan form terdekat
                     const form = button.closest('.delete-form');
 
                     Swal.fire({
@@ -197,7 +193,7 @@
                         cancelButtonText: 'Tidak'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            form.submit(); // Kirim form jika konfirmasi "Yakin"
+                            form.submit();
                         }
                     });
                 });
