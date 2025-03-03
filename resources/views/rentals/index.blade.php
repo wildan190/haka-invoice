@@ -108,10 +108,12 @@
                                     <a href="{{ route('rentals.show', $rental->id) }}" class="btn btn-info btn-md w-100">
                                         <i class="fa-solid fa-eye"></i> Lihat
                                     </a>
-                                    <a href="{{ route('rentals.edit', $rental->id) }}"
-                                        class="btn btn-warning btn-md w-100">
-                                        <i class="fa-solid fa-pen"></i> Edit
-                                    </a>
+                                    @if ($rental->status != 'lunas')
+                                        <a href="{{ route('rentals.edit', $rental->id) }}"
+                                            class="btn btn-warning btn-md w-100">
+                                            <i class="fa-solid fa-pen"></i> Edit
+                                        </a>
+                                    @endif
                                     <form action="{{ route('rentals.destroy', $rental->id) }}" method="POST"
                                         class="d-grid delete-form">
                                         @csrf
