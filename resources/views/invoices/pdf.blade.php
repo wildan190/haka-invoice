@@ -124,18 +124,18 @@
                 <td style="width: 150px; vertical-align: top;"><strong>Nama:</strong></td>
                 <td>{{ $invoice->rental->customer->name }}</td>
             </tr>
-            <tr>
+            {{-- <tr>
                 <td style="width: 150px; vertical-align: top;"><strong>Email:</strong></td>
                 <td>{{ $invoice->rental->customer->email }}</td>
-            </tr>
+            </tr> --}}
             <tr>
                 <td style="width: 150px; vertical-align: top;"><strong>Telepon:</strong></td>
                 <td>{{ $invoice->rental->customer->phone_number }}</td>
             </tr>
-            <tr>
+            {{-- <tr>
                 <td style="width: 150px; vertical-align: top;"><strong>Alamat:</strong></td>
                 <td>{{ $invoice->rental->customer->address }}</td>
-            </tr>
+            </tr> --}}
         </table>
 
         <!-- Informasi Invoice -->
