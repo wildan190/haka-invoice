@@ -24,3 +24,4 @@ yarn-error.log
 .DS_Store
 database/factories/*
 database/DatabaseSeeder.php
+database/seeders/DatabaseSeeder.php
