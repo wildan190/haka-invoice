@@ -50,7 +50,7 @@
                         <select id="rental_type" name="rental_type"
                             class="form-control @error('rental_type') is-invalid @enderror" required>
                             <option value="hari" {{ old('rental_type') == 'hari' ? 'selected' : '' }}>Hari</option>
-                            <option disabled value="bulan" {{ old('rental_type') == 'bulan' ? 'selected' : '' }}>Bulan
+                            <option value="bulan" {{ old('rental_type') == 'bulan' ? 'selected' : '' }}>Bulan
                             </option>
                         </select>
                         @error('rental_type')
@@ -59,7 +59,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="duration" class="form-label">Durasi (Hari)</label>
+                        <label for="duration" class="form-label">Durasi (Hari / Bulan)</label>
                         <input type="number" id="duration" name="duration"
                             class="form-control @error('duration') is-invalid @enderror" value="{{ old('duration') }}"
                             required>
