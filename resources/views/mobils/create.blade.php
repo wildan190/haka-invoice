@@ -16,8 +16,9 @@
                 @csrf
 
                 <div class="mb-3">
-                    <label for="plate" class="form-label">Nomor Plat</label>
-                    <input type="text" id="plate" name="number_plate" class="form-control" value="{{ old('number_plate') }}" required>
+                  <label for="plate" class="form-label">Nomor Plat</label>
+                  <input type="text" id="plate" name="number_plate" class="form-control" value="{{ old('number_plate') }}" placeholder="eg: B1234XYZ" required>
+                  <small class="form-text text-muted">Disarankan tidak ada spasi di kolom ini.</small>
                 </div>
 
                 <div class="mb-3">
