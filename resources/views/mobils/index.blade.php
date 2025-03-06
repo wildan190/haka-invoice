@@ -66,45 +66,47 @@
         <!-- Tampilan Mobile (Card with Collapse) -->
         <div class="d-md-none">
             @forelse ($mobils as $mobil)
-                <div class="card mb-2 shadow-sm border-0 rounded-3">
-                    <div class="card-body">
-                        <!-- Nama Mobil sebagai trigger collapse -->
-                        <h5 class="card-title mb-0">
-                            <a class="text-decoration-none d-block fw-bold text-dark" data-bs-toggle="collapse"
-                                href="#mobil-{{ $mobil->id }}" role="button">
-                                {{ $mobil->type }} - {{ $mobil->merk }} <i
-                                    class="fa-solid fa-chevron-down float-end"></i>
-                            </a>
-                        </h5>
+          <div class="card mb-2 shadow-sm border-0 rounded-3">
+              <div class="card-body">
+            <!-- Nama Mobil sebagai trigger collapse -->
+            <h5 class="card-title mb-0">
+                <a class="text-decoration-none d-block fw-bold text-dark" data-bs-toggle="collapse"
+              href="#mobil-{{ $mobil->id }}" role="button">
+              {{ $mobil->type }} - {{ $mobil->merk }} <i
+                  class="fa-solid fa-chevron-down float-end"></i>
+                </a>
+            </h5>
 
-                        <!-- Detail mobil yang tersembunyi -->
-                        <div class="collapse mt-2" id="mobil-{{ $mobil->id }}">
-                            <p class="card-text text-muted small">
-                                <i class="fa-solid fa-tag"></i> Harga: Rp {{ number_format($mobil->price, 0, ',', '.') }}
-                                <br>
-                                <i class="fa-solid fa-car"></i> Status: {{ ucfirst($mobil->status) }}
-                            </p>
-                            <div class="d-grid gap-2">
-                                <a href="{{ route('mobils.show', $mobil->id) }}" class="btn btn-info btn-md w-100">
-                                    <i class="fa-solid fa-eye"></i> Lihat
-                                </a>
-                                <a href="{{ route('mobils.edit', $mobil->id) }}" class="btn btn-warning btn-md w-100">
-                                    <i class="fa-solid fa-pen"></i> Edit
-                                </a>
-                                <form action="{{ route('mobils.destroy', $mobil->id) }}" method="POST"
-                                    class="d-grid delete-form">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="button" class="btn btn-danger btn-md w-100 delete-button">
-                                        <i class="fa-solid fa-trash"></i> Hapus
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+            <!-- Detail mobil yang tersembunyi -->
+            <div class="collapse mt-2" id="mobil-{{ $mobil->id }}">
+                <p class="card-text text-muted small">
+              <i class="fa-solid fa-tag"></i> Harga: Rp {{ number_format($mobil->price, 0, ',', '.') }}
+              <br>
+              <i class="fa-solid fa-car"></i> Status: {{ ucfirst($mobil->status) }}
+              <br>
+              <i class="fa-solid fa-id-card"></i> Nomor Plat: {{ $mobil->number_plate }}
+                </p>
+                <div class="d-grid gap-2">
+              <a href="{{ route('mobils.show', $mobil->id) }}" class="btn btn-info btn-md w-100">
+                  <i class="fa-solid fa-eye"></i> Lihat
+              </a>
+              <a href="{{ route('mobils.edit', $mobil->id) }}" class="btn btn-warning btn-md w-100">
+                  <i class="fa-solid fa-pen"></i> Edit
+              </a>
+              <form action="{{ route('mobils.destroy', $mobil->id) }}" method="POST"
+                  class="d-grid delete-form">
+                  @csrf
+                  @method('DELETE')
+                  <button type="button" class="btn btn-danger btn-md w-100 delete-button">
+                <i class="fa-solid fa-trash"></i> Hapus
+                  </button>
+              </form>
                 </div>
+            </div>
+              </div>
+          </div>
             @empty
-                <p class="text-center text-muted">Tidak ada mobil.</p>
+          <p class="text-center text-muted">Tidak ada mobil.</p>
             @endforelse
         </div>
 
