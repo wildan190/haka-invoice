@@ -86,6 +86,7 @@
                         @error('dp_paid')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
+                        <small class="form-text text-muted">Jika tidak menggunakan DP, langsung bayar penuh.</small>
                     </div>
 
                     <div class="mb-3">

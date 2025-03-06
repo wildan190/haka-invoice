@@ -8,6 +8,8 @@ interface RentalRepositoryInterface
 {
     public function getAll();
 
+    public function getAllWithRelationsPaginated($perPage = 10, $search = null);
+
     public function getById(int $id): ?Rental;
 
     public function create(array $data): Rental;
