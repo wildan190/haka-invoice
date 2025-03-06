@@ -11,7 +11,8 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th>No.</th>
+                                <th>Nomor Plat</th>
                                 <th>Merk</th>
                                 <th>Type</th>
                                 <th>Harga</th>
@@ -22,6 +23,7 @@
                             @foreach ($mobils as $mobil)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $mobil->number_plate }}</td>
                                     <td>{{ $mobil->merk }}</td>
                                     <td>{{ $mobil->type }}</td>
                                     <td>{{ number_format($mobil->price) }}</td>
