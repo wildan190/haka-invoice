@@ -3,26 +3,44 @@
 @section('title', 'Detail Rental')
 
 @section('content')
-    <div class="container my-4">
-        <h1 class="text-center mb-4">Detail Rental</h1>
+    <div class="container my-5">
+        <div class="text-center mb-5">
+            <h1 class="display-4">Detail Rental</h1>
+            <a href="{{ route('rentals.index') }}" class="btn btn-outline-secondary mt-3">
+                <i class="fa-solid fa-arrow-left"></i> Kembali
+            </a>
+        </div>
 
-        <a href="{{ route('rentals.index') }}" class="btn btn-secondary mb-3">
-            <i class="fa-solid fa-arrow-left"></i> Kembali
-        </a>
-
-        <div class="card shadow-sm mb-4">
+        <div class="card shadow-sm mb-5">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Informasi Rental</h4>
+            </div>
             <div class="card-body">
-                <h5 class="mb-3"><strong>Customer:</strong> {{ $rental->customer->name }}</h5>
-                <h5 class="mb-3"><strong>Mobil:</strong> {{ $rental->mobil->merk }} - {{ $rental->mobil->type }}</h5>
-                <h5 class="mb-3"><strong>Durasi:</strong> {{ $rental->duration }} {{ $rental->rental_type }}</h5>
-                <h5 class="mb-3"><strong>Total Harga:</strong> Rp{{ number_format($rental->total_price, 2, ',', '.') }}</h5>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <h5><strong>Customer:</strong> {{ $rental->customer->name }}</h5>
+                    </div>
+                    <div class="col-md-6">
+                        <h5><strong>Mobil:</strong> {{ $rental->mobil->merk }} - {{ $rental->mobil->type }}</h5>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <h5><strong>Durasi:</strong> {{ $rental->duration }} {{ $rental->rental_type }}</h5>
+                    </div>
+                    <div class="col-md-6">
+                        <h5><strong>Total Harga:</strong> Rp{{ number_format($rental->total_price, 2, ',', '.') }}</h5>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="card shadow-sm mb-4">
+        <div class="card shadow-sm mb-5">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0">Layanan Tambahan</h4>
+            </div>
             <div class="card-body">
-                <h3 class="mb-3">Layanan Tambahan</h3>
-                <ul class="list-group">
+                <ul class="list-group list-group-flush">
                     @foreach ($rental->services as $service)
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             {{ $service->service_name }}
@@ -33,8 +51,10 @@
             </div>
         </div>
 
-        <a href="{{ route('rentals.receipt', $rental->id) }}" class="btn btn-primary my-3" target="_blank">
-            <i class="fa-solid fa-file-pdf"></i> Cetak Kwitansi
-        </a>
+        <div class="text-center">
+            <a href="{{ route('rentals.receipt', $rental->id) }}" class="btn btn-danger btn-lg" target="_blank">
+                <i class="fa-solid fa-file-pdf"></i> Cetak Kwitansi
+            </a>
+        </div>
     </div>
 @endsection

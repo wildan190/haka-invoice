@@ -3,6 +3,7 @@
 @section('title', 'Tambah Rental')
 
 @section('content')
+
     <div class="container">
         <h1 class="my-4 text-center">Tambah Rental</h1>
 
@@ -14,6 +15,7 @@
             <div class="card-body">
                 <form action="{{ route('rentals.store') }}" method="POST">
                     @csrf
+
                     <div class="mb-3">
                         <label for="customer_id" class="form-label">Customer</label>
                         <select id="customer_id" name="customer_id"
@@ -32,18 +34,23 @@
 
                     <div class="mb-3">
                         <label for="mobil_id" class="form-label">Mobil</label>
-                        <select id="mobil_id" name="mobil_id" class="form-control @error('mobil_id') is-invalid @enderror"
-                            required>
-                            @foreach ($mobils as $mobil)
-                                <option value="{{ $mobil->id }}" {{ old('mobil_id') == $mobil->id ? 'selected' : '' }}>
-                                    {{ $mobil->merk }} - {{ $mobil->type }}
-                                </option>
-                            @endforeach
-                        </select>
+                        <div class="input-group">
+                            <input type="text" id="mobil_nama"
+                                class="form-control @error('mobil_id') is-invalid @enderror" placeholder="Pilih Mobil"
+                                readonly required>
+                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
+                                data-bs-target="#modalListMobil">
+                                Pilih Mobil
+                            </button>
+                        </div>
+                        <input type="hidden" id="mobil_id" name="mobil_id" required>
                         @error('mobil_id')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+
+                    <!-- Include Modal -->
+                    @include('rentals.components.modal-list-mobil')
 
                     <div class="mb-3">
                         <label for="rental_type" class="form-label">Jenis Rental</label>
@@ -86,6 +93,7 @@
                         @error('dp_paid')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
+                        <small class="form-text text-muted">Jika tidak menggunakan DP, langsung bayar penuh.</small>
                     </div>
 
                     <div class="mb-3">
@@ -132,6 +140,22 @@
         `;
             container.appendChild(newService);
             serviceIndex++;
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.btn-pilih-mobil');
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const mobilId = this.getAttribute('data-id');
+                    const mobilMerk = this.getAttribute('data-merk');
+                    const mobilType = this.getAttribute('data-type');
+
+                    document.getElementById('mobil_id').value = mobilId;
+                    document.getElementById('mobil_nama').value = `${mobilMerk} - ${mobilType}`;
+                });
+            });
         });
     </script>
 
