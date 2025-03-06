@@ -6,9 +6,20 @@
     <div class="container">
         <h1 class="my-4">Daftar Rental</h1>
 
-        <a href="{{ route('rentals.create') }}" class="btn btn-primary mb-3">
-            <i class="fa-solid fa-plus"></i> Tambah Rental
-        </a>
+        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+            <a href="{{ route('rentals.create') }}" class="btn btn-primary mb-2">
+                <i class="fa-solid fa-plus"></i> Tambah Rental
+            </a>
+
+            <!-- Form Pencarian -->
+            <form action="{{ route('rentals.index') }}" method="GET" class="d-flex flex-grow-1 ms-md-3 mt-2 mt-md-0">
+                <input type="text" name="search" class="form-control me-2" placeholder="Cari nama, mobil, status..."
+                    value="{{ request('search') }}">
+                <button type="submit" class="btn btn-secondary">
+                    <i class="fa-solid fa-search"></i> Cari
+                </button>
+            </form>
+        </div>
 
         @if (session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>

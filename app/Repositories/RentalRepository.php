@@ -13,6 +13,23 @@ class RentalRepository implements RentalRepositoryInterface
         return Rental::with(['customer', 'mobil'])->paginate(10);
     }
 
+    public function getAllWithRelationsPaginated($perPage = 10, $search = null)
+{
+    $query = Rental::with(['customer', 'mobil']);
+
+    if ($search) {
+        $query->whereHas('customer', function ($q) use ($search) {
+            $q->where('name', 'LIKE', "%$search%");
+        })->orWhereHas('mobil', function ($q) use ($search) {
+            $q->where('merk', 'LIKE', "%$search%")
+              ->orWhere('type', 'LIKE', "%$search%");
+        })->orWhere('status', 'LIKE', "%$search%");
+    }
+
+    return $query->paginate($perPage);
+}
+
+
     public function getById(int $id): ?Rental
     {
         return Rental::with(['customer', 'mobil'])->find($id);
@@ -75,30 +92,23 @@ class RentalRepository implements RentalRepositoryInterface
 
         $total = $data['duration'] * $harga_per_unit;
 
-        // Hitung total harga services baru
         $total_service_price = \array_sum(\array_column($data['services'] ?? [], 'service_price'));
 
-        // Tambahkan harga services ke total
         $total += $total_service_price;
 
-        // Hitung PPN jika ada
         $ppn = $data['use_ppn'] ? $total * 0.11 : 0;
         $total_price = $total + $ppn;
 
-        // Menghitung ulang remaining_payment
         $dp_paid = $data['use_dp'] ? ($data['dp_paid'] ?? 0) : 0;
 
-        // Cek jika status saat ini lunas dan ada services baru
         if ($rental->status === 'lunas' && $total_service_price > 0) {
             $remaining_payment = $total_price - $rental->total_price;
         } else {
             $remaining_payment = $total_price - $dp_paid;
         }
 
-        // Update status pembayaran
         $status = $remaining_payment > 0 ? 'belum_lunas' : 'lunas';
 
-        // Menggunakan transaksi database
         DB::transaction(function () use ($rental, $data, $dp_paid, $total_price, $remaining_payment, $ppn, $status) {
             // Update data rental
             $rental->update([
@@ -115,10 +125,8 @@ class RentalRepository implements RentalRepositoryInterface
                 'status' => $status,
             ]);
 
-            // Hapus services lama
             $rental->services()->delete();
 
-            // Tambah services baru jika ada
             if (isset($data['services'])) {
                 foreach ($data['services'] as $service) {
                     $rental->services()->create($service);
