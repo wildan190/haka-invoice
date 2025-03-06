@@ -10,6 +10,17 @@
             <i class="fa-solid fa-plus"></i> Buat Invoice
         </a>
 
+        <!-- Form Pencarian Invoice -->
+        <form action="{{ route('invoices.index') }}" method="GET" class="mb-3">
+            <div class="input-group">
+                <input type="text" name="search" class="form-control"
+                    placeholder="Cari Invoice, Customer, atau Tipe Mobil..." value="{{ request('search') }}">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-search"></i> Cari
+                </button>
+            </div>
+        </form>
+
         @if (session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif

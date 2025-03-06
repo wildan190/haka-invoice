@@ -150,18 +150,20 @@
                 <td>{{ \Carbon\Carbon::parse($invoice->invoice_date)->format('d-m-Y') }}</td>
             </tr>
         </table>
-        
+
         <!-- Detail Penyewaan -->
         <p class="section-title">Detail Penyewaan</p>
         <table class="table">
             <tr>
                 <th>Jenis Mobil</th>
+                <th>Nomor Plat</th>
                 <th>Durasi</th>
                 <th class="text-right">Harga Sewa (Rp)</th>
                 <th class="text-right">Total (Rp)</th>
             </tr>
             <tr>
                 <td>{{ $invoice->rental->mobil->merk }} - {{ $invoice->rental->mobil->type }}</td>
+                <td>{{ $invoice->rental->mobil->number_plate }}</td>
                 <td>{{ $invoice->rental->duration }} {{ ucfirst($invoice->rental->rental_type) }}</td>
                 <td class="text-right">Rp{{ number_format($invoice->rental->mobil->price, 2, ',', '.') }}</td>
                 <td class="text-right">
