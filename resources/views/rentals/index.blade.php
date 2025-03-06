@@ -19,8 +19,8 @@
                     <i class="fa-solid fa-search"></i> Cari
                 </button>
             </form>
-            <p class="text-muted mt-2">Pencarian bersifat case sensitive, huruf besar dan kecil berpengaruh.</p>
         </div>
+        <p class="text-muted mt-2">Pencarian bersifat case sensitive, huruf besar dan kecil berpengaruh.</p>
 
         @if (session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
