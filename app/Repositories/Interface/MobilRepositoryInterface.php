@@ -10,6 +10,8 @@ interface MobilRepositoryInterface
 {
     public function getAll(): Collection;
 
+    public function search(string $keyword): LengthAwarePaginator;
+
     public function paginate(int $perPage): LengthAwarePaginator;
 
     public function getById(int $id): ?Mobil;
