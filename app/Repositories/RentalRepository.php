@@ -14,21 +14,20 @@ class RentalRepository implements RentalRepositoryInterface
     }
 
     public function getAllWithRelationsPaginated($perPage = 10, $search = null)
-{
-    $query = Rental::with(['customer', 'mobil']);
+    {
+        $query = Rental::with(['customer', 'mobil']);
 
-    if ($search) {
-        $query->whereHas('customer', function ($q) use ($search) {
-            $q->where('name', 'LIKE', "%$search%");
-        })->orWhereHas('mobil', function ($q) use ($search) {
-            $q->where('merk', 'LIKE', "%$search%")
-              ->orWhere('type', 'LIKE', "%$search%");
-        })->orWhere('status', 'LIKE', "%$search%");
+        if ($search) {
+            $query->whereHas('customer', function ($q) use ($search) {
+                $q->where('name', 'LIKE', "%$search%");
+            })->orWhereHas('mobil', function ($q) use ($search) {
+                $q->where('merk', 'LIKE', "%$search%")
+                    ->orWhere('type', 'LIKE', "%$search%");
+            })->orWhere('status', 'LIKE', "%$search%");
+        }
+
+        return $query->paginate($perPage);
     }
-
-    return $query->paginate($perPage);
-}
-
 
     public function getById(int $id): ?Rental
     {
