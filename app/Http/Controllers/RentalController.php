@@ -20,14 +20,13 @@ class RentalController extends Controller
     }
 
     public function index(Request $request)
-{
-    $search = $request->input('search');
+    {
+        $search = $request->input('search');
 
-    $rentals = $this->rentalRepository->getAllWithRelationsPaginated(10, $search); // Perbarui repository
+        $rentals = $this->rentalRepository->getAllWithRelationsPaginated(10, $search); // Perbarui repository
 
-    return view('rentals.index', compact('rentals', 'search'));
-}
-
+        return view('rentals.index', compact('rentals', 'search'));
+    }
 
     public function create()
     {
