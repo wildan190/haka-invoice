@@ -16,6 +16,16 @@
                 <form action="{{ route('rentals.store') }}" method="POST">
                     @csrf
 
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
                     <div class="mb-3">
                         <label for="customer_id" class="form-label">Customer</label>
                         <select id="customer_id" name="customer_id"
@@ -159,6 +169,54 @@
         });
     </script>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const useDpSelect = document.querySelector('select[name="use_dp"]');
+            const dpPaidInput = document.getElementById('dp_paid');
+            const serviceContainer = document.getElementById('services-container');
+            const mobilIdInput = document.getElementById('mobil_id');
+
+            // Fungsi untuk menghitung total harga
+            function calculateTotal() {
+                let total = 0;
+
+                // Ambil harga mobil dari atribut data
+                const selectedMobil = document.querySelector(`.btn-pilih-mobil[data-id="${mobilIdInput.value}"] `);
+                if (selectedMobil) {
+                    const hargaMobil = parseFloat(selectedMobil.getAttribute('data-harga')) || 0;
+                    total += hargaMobil;
+                }
+
+                // Ambil harga dari layanan tambahan
+                const servicePrices = serviceContainer.querySelectorAll(
+                    'input[name^="services"][name$="[service_price]"]');
+                servicePrices.forEach(input => {
+                    total += parseFloat(input.value) || 0;
+                });
+
+                return total;
+            }
+
+            // Event listener untuk perubahan di "Gunakan DP?"
+            useDpSelect.addEventListener('change', function() {
+                if (useDpSelect.value === "0") { // Jika "Tidak" menggunakan DP
+                    const total = calculateTotal();
+                    dpPaidInput.value = total; // Isi dp_paid dengan total harga
+                    dpPaidInput.setAttribute('readonly', true); // Buat readonly
+                } else {
+                    dpPaidInput.value = ""; // Kosongkan jika "Ya"
+                    dpPaidInput.removeAttribute('readonly'); // Hapus readonly
+                }
+            });
+
+            // Event listener untuk perhitungan ulang harga jika ada perubahan layanan atau mobil
+            serviceContainer.addEventListener('input', () => {
+                if (useDpSelect.value === "0") {
+                    dpPaidInput.value = calculateTotal(); // Update dp_paid jika "Tidak" menggunakan DP
+                }
+            });
+        });
+    </script>
     <style>
         .form-control {
             border-radius: 0.25rem;
