@@ -76,7 +76,7 @@ class RentalRepository implements RentalRepositoryInterface
         $total = $data['duration'] * $harga_per_unit;
 
         // Hitung total harga services baru
-        $total_service_price = array_sum(array_column($data['services'] ?? [], 'service_price'));
+        $total_service_price = \array_sum(\array_column($data['services'] ?? [], 'service_price'));
 
         // Tambahkan harga services ke total
         $total += $total_service_price;

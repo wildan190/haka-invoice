@@ -17,6 +17,12 @@
                 @method('PUT')
 
                 <div class="mb-3">
+                  <label for="plate" class="form-label">Nomor Plat</label>
+                  <input type="text" id="plate" name="number_plate" class="form-control" value="{{ old('number_plate', $mobil->number_plate) }}" placeholder="eg: B1234XYZ" required>
+                  <small class="form-text text-muted">Disarankan tidak ada spasi di kolom ini.</small>
+                </div>
+
+                <div class="mb-3">
                     <label for="type" class="form-label">Tipe</label>
                     <input type="text" id="type" name="type" class="form-control" value="{{ old('type', $mobil->type) }}" required>
                 </div>
