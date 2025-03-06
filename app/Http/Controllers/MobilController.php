@@ -29,6 +29,7 @@ class MobilController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'number_plate' => 'required|string|max:10|unique:mobils',
             'type' => 'required|string|max:255',
             'merk' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
@@ -64,6 +65,7 @@ class MobilController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
+            'number_plate' => 'required|string|max:10|unique:mobils',
             'type' => 'required|string|max:255',
             'merk' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
