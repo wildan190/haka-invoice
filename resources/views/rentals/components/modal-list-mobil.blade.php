@@ -20,6 +20,7 @@
                                 <th>Merk</th>
                                 <th>Type</th>
                                 <th>Harga</th>
+                                <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -31,6 +32,7 @@
                                     <td>{{ $mobil->merk }}</td>
                                     <td>{{ $mobil->type }}</td>
                                     <td>{{ number_format($mobil->price) }}</td>
+                                    <td>{{ $mobil->status }}</td>
                                     <td>
                                         <button type="button" class="btn btn-primary btn-pilih-mobil"
                                             data-id="{{ $mobil->id }}" data-merk="{{ $mobil->merk }}"
