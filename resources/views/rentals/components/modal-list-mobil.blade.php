@@ -7,6 +7,10 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                <div class="mb-3">
+                    <input type="text" id="searchMobil" class="form-control"
+                        placeholder="Cari berdasarkan merk atau tipe...">
+                </div>
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>
@@ -43,3 +47,28 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchMobil');
+        const tableRows = document.querySelectorAll('#modalListMobil tbody tr');
+
+        searchInput.addEventListener('input', function() {
+            const keyword = searchInput.value.toLowerCase();
+
+            tableRows.forEach(row => {
+                const merk = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+                const type = row.querySelector('td:nth-child(4)').textContent.toLowerCase();
+                const numberPlate = row.querySelector('td:nth-child(2)').textContent
+                    .toLowerCase();
+
+                if (merk.includes(keyword) || type.includes(keyword) || numberPlate.includes(
+                        keyword)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    });
+</script>
