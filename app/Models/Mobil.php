@@ -12,6 +12,7 @@ class Mobil extends Model
     protected $table = 'mobils';
 
     protected $fillable = [
+        'number_plate',
         'type',
         'merk',
         'price',

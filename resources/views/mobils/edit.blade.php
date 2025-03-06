@@ -17,6 +17,11 @@
                 @method('PUT')
 
                 <div class="mb-3">
+                    <label for="plat" class="form-label">Nomor Plat</label>
+                    <input type="text" id="plat" name="number_plate" class="form-control" value="{{ old('number_plate', $mobil->number_plate) }}" required>
+                </div>
+
+                <div class="mb-3">
                     <label for="type" class="form-label">Tipe</label>
                     <input type="text" id="type" name="type" class="form-control" value="{{ old('type', $mobil->type) }}" required>
                 </div>

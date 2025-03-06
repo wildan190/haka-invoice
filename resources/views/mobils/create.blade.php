@@ -14,6 +14,12 @@
         <div class="card-body">
             <form action="{{ route('mobils.store') }}" method="POST">
                 @csrf
+
+                <div class="mb-3">
+                    <label for="plate" class="form-label">Nomor Plat</label>
+                    <input type="text" id="plate" name="number_plate" class="form-control" value="{{ old('number_plate') }}" required>
+                </div>
+
                 <div class="mb-3">
                     <label for="type" class="form-label">Tipe</label>
                     <input type="text" id="type" name="type" class="form-control" value="{{ old('type') }}" required>
