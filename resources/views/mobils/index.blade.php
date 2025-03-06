@@ -32,7 +32,7 @@
                     @forelse ($mobils as $mobil)
                         <tr>
                             <td>{{ ($mobils->currentPage() - 1) * $mobils->perPage() + $loop->iteration }}</td>
-                            <td>{{ $mobil->number_plate }}</td>
+                            <td>{{ $mobil->number_plate ?? 'N/A' }}</td>
                             <td>{{ $mobil->type }}</td>
                             <td>{{ $mobil->merk }}</td>
                             <td>Rp {{ number_format($mobil->price, 0, ',', '.') }}</td>
