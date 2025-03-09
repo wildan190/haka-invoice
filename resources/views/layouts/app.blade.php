@@ -163,10 +163,10 @@
             <span>Invoice</span></a>
     </div>
 
-    <footer class="text-end py-3 mt-4"
+    {{-- <footer class="text-end py-3 mt-4"
         style="background-color: #f8f9fa; border-top: 1px solid #dee2e6; padding-right: 20px;">
         <small>Powered by <strong>Micro Padma Nusantara</strong></small>
-    </footer>
+    </footer> --}}
 
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
