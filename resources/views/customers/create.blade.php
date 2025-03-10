@@ -24,6 +24,7 @@
                         <label for="email" class="form-label">Email</label>
                         <input type="email" id="email" name="email" class="form-control"
                             placeholder="Masukkan email">
+                        <small class="form-text text-muted">Tidak wajib diisi</small>
                     </div>
 
                     <div class="mb-3">
