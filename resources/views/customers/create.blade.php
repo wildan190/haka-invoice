@@ -23,7 +23,7 @@
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
                         <input type="email" id="email" name="email" class="form-control"
-                            placeholder="Masukkan email" required>
+                            placeholder="Masukkan email">
                     </div>
 
                     <div class="mb-3">
