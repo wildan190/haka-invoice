@@ -88,6 +88,7 @@
                     <div class="mb-3">
                         <label class="form-label">Gunakan DP?</label>
                         <select name="use_dp" class="form-control @error('use_dp') is-invalid @enderror" required>
+                            <option value="" disabled selected>Pilih</option>
                             <option value="1" {{ old('use_dp') == '1' ? 'selected' : '' }}>Ya</option>
                             <option value="0" {{ old('use_dp') == '0' ? 'selected' : '' }}>Tidak</option>
                         </select>
@@ -110,6 +111,7 @@
                     <div class="mb-3">
                         <label class="form-label">Gunakan PPN?</label>
                         <select name="use_ppn" class="form-control @error('use_ppn') is-invalid @enderror" required>
+                            <option value="" disabled selected>Pilih</option>
                             <option value="1" {{ old('use_ppn') == '1' ? 'selected' : '' }}>Ya</option>
                             <option value="0" {{ old('use_ppn') == '0' ? 'selected' : '' }}>Tidak</option>
                         </select>
